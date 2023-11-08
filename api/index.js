@@ -14,3 +14,9 @@ mongoose
   .catch((err) => console.log(err));
 // routes
 app.use("/api/v1/user", userRoutes);
+// error handler middleware
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({ success: false, message, statusCode });
+});

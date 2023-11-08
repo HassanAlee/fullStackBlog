@@ -1,4 +1,4 @@
-const mongoose = required("mongoose");
+const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     min: 6,
     max: 25,
+    unique: true,
   },
   password: {
     type: String,
