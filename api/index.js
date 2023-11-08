@@ -2,7 +2,9 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 require("dotenv").config();
+const userRoutes = require("./routes/user.routes.js");
 const port = process.env.PORT || 8080;
+app.use(express.json());
 // connecting to the db
 mongoose
   .connect(process.env.MONGO_URI)
@@ -11,6 +13,4 @@ mongoose
   })
   .catch((err) => console.log(err));
 // routes
-app.use("/", (req, res) => {
-  return res.status(200).send("Everything is working just perfect");
-});
+app.use("/api/v1/user", userRoutes);
