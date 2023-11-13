@@ -8,14 +8,13 @@ import Header from "./components/Header";
 const App = () => {
   return (
     <>
-      <Header>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/authors" element={<Authors />} />
-          <Route path="/blogs" element={<Blogs />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-      </Header>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/authors" element={<Authors />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
     </>
   )
 };
