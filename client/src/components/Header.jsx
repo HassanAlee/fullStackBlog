@@ -23,7 +23,7 @@ const Header = () => {
   return (
     (
       <>
-        <header className='flex justify-between items-center gap-3 flex-col sm:flex-row w-full sm:w-3/4  mx-auto py-6 px-3 sm:px-0 mb-4'>
+        <header className='flex justify-between items-center  flex-col sm:flex-row w-full mx-auto py-6 px-3 sm:px-0 mb-6'>
           {/* logo */}
           <Link to={'/'} className='w-full text-center sm:text-left sm:w-1/4'>
             <h1 className='text-2xl '>the<span className='text-[#4b6bfb] font-bold text-2xl'>Social</span><span className=' font-bold text-2xl text-[#5758BB]'>Blog</span></h1>

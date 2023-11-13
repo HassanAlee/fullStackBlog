@@ -4,8 +4,8 @@ const Home = () => {
   return (
     <>
       {/* top section */}
-      <section className='h-[670px] w-full bg-gray-500 relative'>
-        <img src="images/Image.png" alt="main" className='h-full w-full object-cover' />
+      <section className='h-[670px] w-full relative '>
+        <img src="images/Image.png" alt="main" className='h-full w-full object-cover rounded-2xl' />
         {/* blog info */}
         <div className='absolute bottom-[-10%] left-[4%] rounded-md bg-white w-[600px] flex flex-col gap-y-4 p-8 shadow-md'>
           <div><span className='bg-[#4b6bfb] p-2 text-white capitalize rounded-md'>technology</span></div>
