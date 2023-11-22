@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { registerUser } from '../redux-toolkit/features/userSlice'
-import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 const Register = () => {
     const dispatch = useDispatch()
     const [userData, setUserData] = useState(() => {

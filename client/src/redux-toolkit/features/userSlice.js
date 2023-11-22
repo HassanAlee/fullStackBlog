@@ -32,6 +32,27 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
+// login user
+export const loginUSer = createAsyncThunk(
+  "userSlice/login",
+  async (data, thunkAPI) => {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    const raw = JSON.stringify(data);
+    const requestOptions = {
+      method: "POST",
+      headers,
+      Credentials: "include",
+      body: raw,
+    };
+    let res = await fetch(
+      "http://localhost:3000/api/v1/user/login",
+      requestOptions
+    );
+    res = await res.json();
+    console.log(res);
+  }
+);
 const userSlice = createSlice({
   name: "userSlice",
   initialState,
