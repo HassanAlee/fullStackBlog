@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AllBlogs from '../components/AllBlogs';
+import Cookies from 'js-cookie'
 const blogs = [
   {
     title: "The Power of Discipline in Sports",

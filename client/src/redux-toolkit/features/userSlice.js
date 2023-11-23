@@ -42,13 +42,9 @@ export const loginUSer = createAsyncThunk(
     const requestOptions = {
       method: "POST",
       headers,
-      Credentials: "include",
       body: raw,
     };
-    let res = await fetch(
-      "http://localhost:3000/api/v1/user/login",
-      requestOptions
-    );
+    let res = await fetch("/api/v1/user/login", requestOptions);
     res = await res.json();
     console.log(res);
   }
