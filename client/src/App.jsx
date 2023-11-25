@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import Protected from "./components/Protected";
 import NewBlog from "./pages/NewBlog";
 import UpdateBlog from "./pages/UpdateBlog";
+import UpdateProfile from "./components/UpdateProfile";
 const App = () => {
   let pathName = window.location.pathname;
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/write-blog" element={<NewBlog />} />
             <Route path="/update-blog" element={<UpdateBlog />} />
+            <Route path="/update-profile" element={<UpdateProfile />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

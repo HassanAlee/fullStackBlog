@@ -1,9 +1,15 @@
 import React from 'react'
 import { FaFacebookSquare, FaInstagramSquare, FaLinkedin, FaTwitterSquare, FaYoutubeSquare } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from './Button';
 export const ProfileTop = ({ currentUser }) => {
+    const navigate = useNavigate();
+    // load blogs
+    const loadBlogs = () => {
+        console.log("this will load the blogs");
+    }
     return (
-        <div className='bg-[#f6f6f7] px-10 sm:px-40 py-10'>
+        <div className='bg-[#f6f6f7] px-10 sm:px-40 py-10 rounded-lg'>
             {/* img and name */}
             <article className='flex justify-center items-center gap-x-4 '>
                 <img src="/images/user1.png" alt={currentUser.name} />
@@ -20,6 +26,11 @@ export const ProfileTop = ({ currentUser }) => {
                 <Link to={"https://instagram.com/me.hassanali"} target='_blank'><FaTwitterSquare /></Link>
                 <Link to={"https://instagram.com/me.hassanali"} target='_blank'><FaLinkedin /></Link>
                 <Link to={"https://instagram.com/me.hassanali"} target='_blank'><FaYoutubeSquare /></Link>
+            </div>
+            {/* buttons */}
+            <div className='flex flex-row mt-10 justify-center gap-x-4'>
+                <Button text={"update profile"} click={() => navigate('/update-profile')} />
+                <Button text={"view blogs"} click={loadBlogs} />
             </div>
         </div>
     )
