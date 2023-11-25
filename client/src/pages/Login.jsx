@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { loginUSer } from '../redux-toolkit/features/userSlice'
 import { useDispatch } from 'react-redux'
 const Register = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [userData, setUserData] = useState(() => {
         return { email: "", password: "" }
     })
@@ -17,7 +18,14 @@ const Register = () => {
     // on submit handler
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(loginUSer(userData))
+        dispatch(loginUSer(userData)).then((res) => {
+            if (res.payload.hasOwnProperty("country")) {
+                setUserData({ password: "", email: "" })
+                setTimeout(() => {
+                    navigate('/')
+                }, 2500)
+            }
+        })
     }
     return (
         <section className='h-screen w-full  flex justify-between flex-col sm:flex-row'>
@@ -35,7 +43,7 @@ const Register = () => {
                             <label htmlFor="password" className='mb-1'>Password</label>
                             <input type="text" id='password' name='password' className='rounded-lg py-2 px-3 outline-none border' value={userData.password} onChange={handleChange} />
                         </div>
-                        <button className='w-full rounded-2xl mt-3 bg-[#4b6bfb] capitalize text-white py-2 font-medium text-lg hover:opacity-70'>signup</button>
+                        <button className='w-full rounded-2xl mt-3 bg-[#4b6bfb] capitalize text-white py-2 font-medium text-lg hover:opacity-70'>Login</button>
                         <p className='mt-3 text-sm text-center'>Don't have an account? <Link className='text-[#4b6bfb]' to={"/register"}>Sign up</Link></p>
                     </form>
                 </div>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { CiLight, CiDark } from 'react-icons/ci'
+// import { CiLight, CiDark } from 'react-icons/ci'
+import { useSelector } from 'react-redux'
 let navItems = [
   {
     text: "Home",
@@ -14,12 +15,13 @@ let navItems = [
     text: "Authors",
     path: "/authors"
   },
-  {
-    text: "Profile",
-    path: "/profile"
-  }
+  // {
+  //   text: "Profile",
+  //   path: "/profile"
+  // }
 ]
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.userSlice)
   return (
     (
       <>
@@ -33,7 +35,11 @@ const Header = () => {
             {
               navItems.map((item, index) => <Link key={index} to={item.path} className='sm:mx-5 mx-2 w-1/4 text-xl'>{item.text}</Link>)
             }
+            <Link className='m:mx-5 mx-2 w-1/4 text-xl' to={currentUser ? "/profile" : "/login"}>
+              {currentUser ? currentUser.name : "Login"}
+            </Link>
           </ul>
+
           {/* toggle*/}
           {/* <CiLight className='text-3xl' /> */}
         </header>

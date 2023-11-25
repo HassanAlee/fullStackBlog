@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 const initialState = {
   loading: false,
   error: "",
+  currentUser: "",
 };
 // register user
 export const registerUser = createAsyncThunk(
@@ -45,8 +46,16 @@ export const loginUSer = createAsyncThunk(
       body: raw,
     };
     let res = await fetch("/api/v1/user/login", requestOptions);
+    if (!res.ok) {
+      res = await res.json();
+      toast.error(res.message, {
+        duration: 6000,
+      });
+      return thunkAPI.rejectWithValue(res.message);
+    }
     res = await res.json();
-    console.log(res);
+    toast.success(`${res.name} welcome to the socialBlog`);
+    return res;
   }
 );
 const userSlice = createSlice({
@@ -63,6 +72,18 @@ const userSlice = createSlice({
     [registerUser.rejected]: (state, action) => {
       state.error = action.payload;
       state.loading = false;
+    },
+    [loginUSer.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [loginUSer.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.currentUser = action.payload;
+    },
+    [loginUSer.rejected]: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });
