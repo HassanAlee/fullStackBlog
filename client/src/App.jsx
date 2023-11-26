@@ -10,13 +10,13 @@ import Login from "./pages/Login";
 import Protected from "./components/Protected";
 import NewBlog from "./pages/NewBlog";
 import UpdateBlog from "./pages/UpdateBlog";
-import UpdateProfile from "./components/UpdateProfile";
+import UpdateProfile from "./pages/UpdateProfile";
 const App = () => {
   let pathName = window.location.pathname;
   return (
     <>
-      <div className={`${pathName == "/register" || pathName == "/login" ? "" : "sm:px-40"}`}>
-        {pathName == "/register" || pathName == "/login" ? "" : <Header />}
+      <div className={`${pathName == "/register" || pathName == "/login" || pathName == "/update-profile" ? "" : "sm:px-40"}`}>
+        {pathName == "/register" || pathName == "/login" || pathName == "/update-profile" ? "" : <Header />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/authors" element={<Authors />} />
