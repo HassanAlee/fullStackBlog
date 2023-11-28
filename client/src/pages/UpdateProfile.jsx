@@ -26,7 +26,7 @@ const socialList = [
 const UpdateProfile = () => {
     const dispatch = useDispatch()
     const [userData, setUserData] = useState(() => {
-        return { name: "", email: "", password: "", country: "", info: "" }
+        return { name: "", email: "", country: "", info: "" }
     })
     // change handler to update state
     const handleChange = ({ target: { name, value } }) => {
@@ -46,42 +46,43 @@ const UpdateProfile = () => {
     return (
         <section className='w-full  flex justify-between flex-col sm:flex-row'>
             {/* form side */}
-            <article className='flex-1 h-full overflow-y-auto'>
+            <article className='flex-1 h-full overflow-y-auto py-4'>
                 <div className='h-full w-full flex items-center justify-center'>
                     <form className='text-sm w-full sm:w-[60%] px-4 sm:px-0'>
-                        <h1 className='capitalize font-medium text-3xl mb-8'>update profile</h1>
+                        <h1 className='capitalize font-medium text-3xl '>update profile</h1>
+                        <p className='mb-8 mt-2'>Only fields mark with * are mandatory</p>
                         <div className='flex flex-col mb-4'>
-                            <label htmlFor="name" className='mb-1'>Name</label>
+                            <label htmlFor="name" className='mb-1'>Name*</label>
                             <input type="text" id='name' name='name' className='rounded-lg py-2 px-3 outline-none border' onChange={handleChange} value={userData.name} />
                         </div>
                         <div className='flex flex-col mb-4'>
-                            <label htmlFor="email" className='mb-1'>Email</label>
+                            <label htmlFor="email" className='mb-1'>Email*</label>
                             <input type="email" id='email' name='email' className='rounded-lg py-2 px-3 outline-none border' onChange={handleChange} value={userData.email} />
                         </div>
-                        <div className='flex flex-col mb-4'>
+                        {/* <div className='flex flex-col mb-4'>
                             <label htmlFor="password" className='mb-1'>Password</label>
                             <input type="text" id='password' name='password' className='rounded-lg py-2 px-3 outline-none border' onChange={handleChange} value={userData.password} />
-                        </div>
+                        </div> */}
                         <div className='flex flex-col mb-4'>
-                            <label htmlFor="country" className='mb-1'>Country</label>
+                            <label htmlFor="country" className='mb-1'>Country*</label>
                             <input type="text" id='country' name='country' className='rounded-lg py-2 px-3 outline-none border' onChange={handleChange} value={userData.country} />
                         </div>
                         <div className='flex flex-col mb-4'>
                             <label htmlFor="info" className='mb-1'>About</label>
-                            <textarea className='border resize-none rounded-lg' />
+                            <textarea className='border resize-none rounded-lg p-2 outline-none' rows={"7"} placeholder='Write something about yourself' />
                         </div>
                         {
                             socialList.map((item, i) => {
                                 return <>
                                     <div className='flex items-center w-full justify-between mb-4'>
                                         <img src={item.icon} alt={item.text} />
-                                        <input type="text" className='border-b w-[90%] ' placeholder={`${item.text} url here`} />
+                                        <input type="text" className='border-b w-[90%] outline-none ' placeholder={`${item.text} url here`} />
                                     </div>
                                 </>
                             })
                         }
-                        <button className='w-full rounded-2xl mt-3 bg-[#4b6bfb] capitalize text-white py-2 font-medium text-lg hover:opacity-70'>signup</button>
-                        <p className='mt-3 text-sm text-center'>Have an account? <Link className='text-[#4b6bfb]' to={"/login"}>Login</Link></p>
+                        <button className='w-full rounded-2xl mt-3 bg-[#4b6bfb] capitalize text-white py-2 font-medium text-lg hover:opacity-70'>Update</button>
+                        <p className='mt-3 text-sm text-center'><Link className='text-[#4b6bfb]' to={"/"}>Back To Home</Link></p>
                     </form>
                 </div>
             </article >
