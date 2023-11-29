@@ -35,4 +35,18 @@ const loginUser = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { registerUser, loginUser };
+// update user profile
+const updateProfile = async (req, res, next) => {
+  const { id } = req.body;
+  try {
+    const updatedUser = await User.findByIdAndUpdate({ _id: id }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    const { password: pass, ...rest } = updatedUser._doc;
+    return res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+module.exports = { registerUser, loginUser, updateProfile };
