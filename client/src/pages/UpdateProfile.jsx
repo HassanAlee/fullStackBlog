@@ -1,33 +1,37 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { updateUser } from '../redux-toolkit/features/userSlice'
 const socialList = [
     {
         icon: "images/facebook.png",
-        text: "Facebook"
+        text: "facebook"
     },
     {
         icon: "images/instagram.png",
-        text: "Instagram"
+        text: "instagram"
     },
     {
         icon: "images/twitter.png",
-        text: "X"
+        text: "twitter"
     },
     {
         icon: "images/linkedin.png",
-        text: "Linkedin"
+        text: "linkedin"
     },
     {
         icon: "images/youtube.png",
-        text: "Youtube"
+        text: "youtube"
     }
 ]
 const UpdateProfile = () => {
     const dispatch = useDispatch()
-    const [userData, setUserData] = useState(() => {
-        return { name: "", email: "", country: "", info: "" }
-    })
+    const navigate = useNavigate()
+    const { currentUser } = useSelector((state) => state.userSlice)
+    const [userData, setUserData] = useState(
+        { name: currentUser.name, email: currentUser.email, country: currentUser.country, info: currentUser.info ? currentUser.info : "", facebook: currentUser.facebook ? currentUser.facebook : "", instagram: currentUser.instagram ? currentUser.instagram : "", linkedin: currentUser.linkedin ? currentUser.linkedin : "", twitter: currentUser.twitter ? currentUser.twitter : "", youtube: currentUser.youtube ? currentUser.youtube : "" }
+    )
     // change handler to update state
     const handleChange = ({ target: { name, value } }) => {
         setUserData((prev) => {
@@ -37,18 +41,18 @@ const UpdateProfile = () => {
     // submit handler
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(registerUser(userData)).then(res => {
-            if (res.payload == true) {
-                setUserData({ name: "", email: "", password: "", country: "" })
-            }
+        dispatch(updateUser({ id: currentUser._id, ...userData })).then(() => {
+            setTimeout(() => {
+                navigate('/profile')
+            }, 2500)
         })
     }
     return (
-        <section className='w-full  flex justify-between flex-col sm:flex-row'>
+        <section className='w-full flex justify-between flex-col sm:flex-row'>
             {/* form side */}
             <article className='flex-1 h-full overflow-y-auto py-4'>
                 <div className='h-full w-full flex items-center justify-center'>
-                    <form className='text-sm w-full sm:w-[60%] px-4 sm:px-0'>
+                    <form className='text-sm w-full sm:w-[60%] px-4 sm:px-0' onSubmit={handleSubmit}>
                         <h1 className='capitalize font-medium text-3xl '>update profile</h1>
                         <p className='mb-8 mt-2'>Only fields mark with * are mandatory</p>
                         <div className='flex flex-col mb-4'>
@@ -69,16 +73,18 @@ const UpdateProfile = () => {
                         </div>
                         <div className='flex flex-col mb-4'>
                             <label htmlFor="info" className='mb-1'>About</label>
-                            <textarea className='border resize-none rounded-lg p-2 outline-none' rows={"7"} placeholder='Write something about yourself' />
+                            <textarea name='info' id="info" value={userData.info} onChange={handleChange} className='border resize-none rounded-lg p-2 outline-none' rows={"7"} placeholder='Write something about yourself' />
                         </div>
                         {
                             socialList.map((item, i) => {
-                                return <>
-                                    <div className='flex items-center w-full justify-between mb-4'>
+                                return (
+                                    <div className='flex items-center w-full justify-between mb-4' key={i}>
                                         <img src={item.icon} alt={item.text} />
-                                        <input type="text" className='border-b w-[90%] outline-none ' placeholder={`${item.text} url here`} />
+                                        <input type="text" name={item.text} id={item.text} className='border-b w-[90%] outline-none p-2 ' placeholder={`${item.text} url here`} value={userData[item.text]} onChange={handleChange} />
                                     </div>
-                                </>
+                                )
+
+
                             })
                         }
                         <button className='w-full rounded-2xl mt-3 bg-[#4b6bfb] capitalize text-white py-2 font-medium text-lg hover:opacity-70'>Update</button>

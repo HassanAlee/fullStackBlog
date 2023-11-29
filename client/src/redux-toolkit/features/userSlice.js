@@ -58,6 +58,31 @@ export const loginUSer = createAsyncThunk(
     return res;
   }
 );
+// update user
+export const updateUser = createAsyncThunk(
+  "userSlice/updateUser",
+  async (data, thunkAPI) => {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    const raw = JSON.stringify(data);
+    const requestOptions = {
+      method: "PATCH",
+      headers,
+      body: raw,
+    };
+    let res = await fetch("/api/v1/user/update-profile", requestOptions);
+    if (!res.ok) {
+      res = await res.json();
+      toast.error(res.message, {
+        duration: 6000,
+      });
+      return thunkAPI.rejectWithValue(res.message);
+    }
+    res = await res.json();
+    toast.success("Profile updated successfully");
+    return res;
+  }
+);
 const userSlice = createSlice({
   name: "userSlice",
   initialState,
@@ -84,6 +109,16 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
       state.error = action.payload;
+    },
+    [updateUser.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.currentUser = action.payload;
+    },
+    [updateUser.rejected]: (state, action) => {
+      (state.loading = false), (state.error = action.payload);
     },
   },
 });
