@@ -3,6 +3,28 @@ import { FaFacebookSquare, FaInstagramSquare, FaLinkedin, FaTwitterSquare, FaYou
 import { Link, useNavigate } from 'react-router-dom';
 import Button from './Button';
 export const ProfileTop = ({ currentUser }) => {
+    const socialList = [
+        {
+            icon: <FaFacebookSquare />,
+            url: currentUser.facebook
+        },
+        {
+            icon: <FaInstagramSquare />,
+            url: currentUser.instagram
+        },
+        {
+            icon: <FaTwitterSquare />,
+            url: currentUser.twitter
+        },
+        {
+            icon: <FaLinkedin />,
+            url: currentUser.linkedin
+        },
+        {
+            icon: <FaYoutubeSquare />,
+            url: currentUser.youtube
+        }
+    ]
     const navigate = useNavigate();
     // load blogs
     const loadBlogs = () => {
@@ -18,14 +40,14 @@ export const ProfileTop = ({ currentUser }) => {
                     <h4 className='text-sm text-[#696A75]'>{currentUser.country}</h4>
                 </div>
             </article>
-            <p className='text-[#3B3C4A] text-lg text-center my-8'>Meet {currentUser.name}, a passionate writer and blogger with a love for technology and travel. {currentUser.name} holds a degree in Computer Science and has spent years working in the tech industry, gaining a deep understanding of the impact technology has on our lives.</p>
+            <p className='text-[#3B3C4A] text-lg text-center my-8'>
+                {currentUser.info !== "" ? currentUser.info : `Meet ${currentUser.name}, a passionate writer and blogger with a love for technology and travel. ${currentUser.name} holds a degree in Computer Science and has spent years working in the tech industry, gaining a deep understanding of the impact technology has on our lives.`}
+            </p>
             {/* socials */}
             <div className='flex justify-center gap-x-2 text-3xl text-[#696A75]'>
-                <Link to={"https://instagram.com/me.hassanali"} target='_blank'><FaFacebookSquare /></Link>
-                <Link to={"https://instagram.com/me.hassanali"} target='_blank'><FaInstagramSquare /></Link>
-                <Link to={"https://instagram.com/me.hassanali"} target='_blank'><FaTwitterSquare /></Link>
-                <Link to={"https://instagram.com/me.hassanali"} target='_blank'><FaLinkedin /></Link>
-                <Link to={"https://instagram.com/me.hassanali"} target='_blank'><FaYoutubeSquare /></Link>
+                {
+                    socialList.map((link, i) => link.url !== "" && <Link key={i} to={link.url} target='_blank'>{link.icon}</Link>)
+                }
             </div>
             {/* buttons */}
             <div className='flex flex-row mt-10 justify-center gap-x-4'>
