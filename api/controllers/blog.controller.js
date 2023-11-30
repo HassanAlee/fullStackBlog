@@ -1,6 +1,5 @@
 const Blog = require("../models/blog.model.js");
-const { errorHandler } = require("../utils/error");
-const addBlogController = async (req, res, next) => {
+const addBlog = async (req, res, next) => {
   try {
     let newBlog = new Blog(req.body);
     await newBlog.save();
@@ -9,4 +8,4 @@ const addBlogController = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { addBlogController };
+module.exports = { addBlog };
