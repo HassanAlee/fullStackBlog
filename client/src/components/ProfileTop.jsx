@@ -50,9 +50,10 @@ export const ProfileTop = ({ currentUser }) => {
                 }
             </div>
             {/* buttons */}
-            <div className='flex flex-row mt-10 justify-center gap-x-4'>
+            <div className='flex flex-row mt-10 justify-center gap-4 flex-wrap'>
                 <Button text={"update profile"} click={() => navigate('/update-profile')} />
                 <Button text={"view blogs"} click={loadBlogs} />
+                <Button text={"write blog"} click={() => navigate('/write-blog')} />
             </div>
         </div>
     )
