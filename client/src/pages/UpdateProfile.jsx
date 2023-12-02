@@ -1,8 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { updateUser } from '../redux-toolkit/features/userSlice'
+import { app } from '../firebase';
+import {
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable,
+} from 'firebase/storage';
 const socialList = [
     {
         icon: "images/facebook.png",
@@ -28,10 +35,47 @@ const socialList = [
 const UpdateProfile = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const imageRef = useRef()
     const { currentUser } = useSelector((state) => state.userSlice)
     const [userData, setUserData] = useState(
-        { name: currentUser.name, email: currentUser.email, country: currentUser.country, info: currentUser.info ? currentUser.info : "", facebook: currentUser.facebook ? currentUser.facebook : "", instagram: currentUser.instagram ? currentUser.instagram : "", linkedin: currentUser.linkedin ? currentUser.linkedin : "", twitter: currentUser.twitter ? currentUser.twitter : "", youtube: currentUser.youtube ? currentUser.youtube : "" }
+        { name: currentUser.name, email: currentUser.email, country: currentUser.country, info: currentUser.info ? currentUser.info : "", facebook: currentUser.facebook ? currentUser.facebook : "", instagram: currentUser.instagram ? currentUser.instagram : "", linkedin: currentUser.linkedin ? currentUser.linkedin : "", twitter: currentUser.twitter ? currentUser.twitter : "", youtube: currentUser.youtube ? currentUser.youtube : "", profile: currentUser.profile ? currentUser.profile : "" }
     )
+    // firebase related
+    const [file, setFile] = useState(undefined);
+    const [filePerc, setFilePerc] = useState(0);
+    const [fileUploadError, setFileUploadError] = useState(false);
+    // image upload function
+    const handleFileUpload = (file) => {
+        const storage = getStorage(app);
+        const fileName = new Date().getTime() + file.name;
+        const storageRef = ref(storage, fileName);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setFilePerc(Math.round(progress));
+            },
+            (error) => {
+                setFileUploadError(true);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setUserData({ ...userData, profile: downloadURL })
+                    setFile('')
+                }
+                );
+            }
+        );
+    };
+    // useEffect to upload image
+    useEffect(() => {
+        if (file) {
+            handleFileUpload(file)
+        }
+    }, [file])
     // change handler to update state
     const handleChange = ({ target: { name, value } }) => {
         setUserData((prev) => {
@@ -54,7 +98,18 @@ const UpdateProfile = () => {
                 <div className='h-full w-full flex items-center justify-center'>
                     <form className='text-sm w-full sm:w-[60%] px-4 sm:px-0' onSubmit={handleSubmit}>
                         <h1 className='capitalize font-medium text-3xl '>update profile</h1>
-                        <p className='mb-8 mt-2'>Only fields mark with * are mandatory</p>
+                        <p className='mb-4 mt-2'>Only fields mark with * are mandatory</p>
+                        <div>
+                            {
+                                file ? <p className='text-sm text-green-500 text-center my-3'>Please wait till the image is upoaded</p> : <>
+                                    <img src={userData.profile == "" ? "/images/user.png" : userData.profile} alt="user" className='mx-auto hover:cursor-pointer rounded-full h-20 w-20 object-cover mb-6' onClick={() => imageRef.current.click()} />
+                                    <input type="file" className='hidden' ref={imageRef} onChange={(e) => setFile(e.target.files[0])} />
+                                </>
+                            }
+                            {
+                                fileUploadError && <p className='my-4 text-center'>Something went wrong while uploading the image</p>
+                            }
+                        </div>
                         <div className='flex flex-col mb-4'>
                             <label htmlFor="name" className='mb-1'>Name*</label>
                             <input type="text" id='name' name='name' className='rounded-lg py-2 px-3 outline-none border' onChange={handleChange} value={userData.name} />
