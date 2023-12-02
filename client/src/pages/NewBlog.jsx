@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import { FaImage } from "react-icons/fa6";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { app } from '../firebase';
 import {
     getDownloadURL,
@@ -9,9 +10,12 @@ import {
     ref,
     uploadBytesResumable,
 } from 'firebase/storage';
+import { addBlog } from '../redux-toolkit/features/blogsSlice';
 const catList = ["Technology", "Motivation", "Entertainment", "Sports", "Traveling"]
 const NewBlog = () => {
     const { currentUser } = useSelector((state) => state.userSlice)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [blogData, setBlogData] = useState(() => {
         return {
             title: "",
@@ -63,7 +67,14 @@ const NewBlog = () => {
     }
     // submit handler to create the blog
     const handleSubmit = () => {
-        console.log({ ...blogData, authorRef: currentUser._id });
+        dispatch(addBlog(blogData)).then((res) => {
+            if (res.payload.hasOwnProperty("description")) {
+                setTimeout(() => {
+                    navigate('/profile');
+                }, 3000)
+            }
+
+        })
     };
     return (
         <section className=' flex justify-between flex-col sm:flex-row p-4 sm:p-0'>

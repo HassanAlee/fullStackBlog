@@ -2,8 +2,8 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userSlice from "./features/userSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-
-const rootReducer = combineReducers({ userSlice });
+import blogsSlice from "./features/blogsSlice";
+const rootReducer = combineReducers({ userSlice, blogsSlice });
 
 const persistConfig = {
   key: "root",
