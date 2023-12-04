@@ -28,6 +28,26 @@ export const addBlog = createAsyncThunk("addBlog/blogsSlice", async (data) => {
     return res;
   }
 });
+// get all blogs
+export const getAllBlogs = createAsyncThunk(
+  "getAllBlogs/blogsSLice",
+  async (thunkAPI) => {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "GET",
+      headers,
+    };
+    let res = await fetch("/api/v1/blog/get-Blogs", requestOptions);
+    if (!res.ok) {
+      res = await res.json();
+      thunkAPI.rejectWithValue(res.message);
+    } else {
+      res = await res.json();
+      return res;
+    }
+  }
+);
 const blogsSlice = createSlice({
   name: "blogsSlice",
   initialState,
@@ -42,6 +62,17 @@ const blogsSlice = createSlice({
     },
     [addBlog.rejected]: (state) => {
       state.loading = false;
+    },
+    [getAllBlogs.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAllBlogs.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.blogs = action.payload;
+    },
+    [getAllBlogs.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });
