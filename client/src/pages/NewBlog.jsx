@@ -67,7 +67,7 @@ const NewBlog = () => {
     }
     // submit handler to create the blog
     const handleSubmit = () => {
-        dispatch(addBlog(blogData)).then((res) => {
+        dispatch(addBlog({ ...blogData, authorName: currentUser.name, authorImage: currentUser.profile || "/images/user.png" })).then((res) => {
             if (res.payload.hasOwnProperty("description")) {
                 setTimeout(() => {
                     navigate('/profile');
