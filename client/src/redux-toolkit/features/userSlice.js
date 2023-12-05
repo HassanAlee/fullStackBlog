@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   error: "",
   currentUser: "",
+  authors: [],
 };
 // register user
 export const registerUser = createAsyncThunk(
@@ -83,6 +84,20 @@ export const updateUser = createAsyncThunk(
     return res;
   }
 );
+// get all authors
+export const getAllAuthors = createAsyncThunk(
+  "userSlice/getAllAuthors",
+  async (thunkAPI) => {
+    let res = await fetch("/api/v1/user/all-authors");
+    if (!res.ok) {
+      res = await res.json();
+      thunkAPI.rejectWithValue(res.message);
+    }
+    res = await res.json();
+    return res;
+    // console.log(res);
+  }
+);
 const userSlice = createSlice({
   name: "userSlice",
   initialState,
@@ -119,6 +134,17 @@ const userSlice = createSlice({
     },
     [updateUser.rejected]: (state, action) => {
       (state.loading = false), (state.error = action.payload);
+    },
+    [getAllAuthors.pending]: (state) => {
+      state.loading = true;
+    },
+    [getAllAuthors.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.authors = action.payload;
+    },
+    [getAllAuthors.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });

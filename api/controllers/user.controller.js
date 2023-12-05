@@ -49,4 +49,17 @@ const updateProfile = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { registerUser, loginUser, updateProfile };
+// get all authors
+const getAllAuthors = async (req, res, next) => {
+  try {
+    let authors = await User.find({});
+    authors = authors.map((author) => {
+      const { password: pass, ...rest } = author._doc;
+      return rest;
+    });
+    res.status(200).json(authors);
+  } catch (error) {
+    next(error);
+  }
+};
+module.exports = { registerUser, loginUser, updateProfile, getAllAuthors };
