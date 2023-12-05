@@ -31,6 +31,7 @@ export const ProfileTop = ({ currentUser }) => {
     const loadBlogs = () => {
         console.log("this will load the blogs");
     }
+    const path = window.location.pathname;
     return (
         <div className='bg-[#f6f6f7] px-10 sm:px-40 py-10 rounded-lg'>
             {/* img and name */}
@@ -51,11 +52,15 @@ export const ProfileTop = ({ currentUser }) => {
                 }
             </div>
             {/* buttons */}
-            <div className='flex flex-row mt-10 justify-center gap-4 flex-wrap'>
-                <Button text={"update profile"} click={() => navigate('/update-profile')} />
-                <Button text={"view blogs"} click={loadBlogs} />
-                <Button text={"write blog"} click={() => navigate('/write-blog')} />
-            </div>
+            {
+                window.location.pathname == "/profile" && <>
+                    <div className='flex flex-row mt-10 justify-center gap-4 flex-wrap'>
+                        <Button text={"update profile"} click={() => navigate('/update-profile')} />
+                        <Button text={"view blogs"} click={loadBlogs} />
+                        <Button text={"write blog"} click={() => navigate('/write-blog')} />
+                    </div>
+                </>
+            }
         </div>
     )
 }

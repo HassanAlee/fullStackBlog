@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import Button from '../components/Button';
 import { getAllBlogs } from '../redux-toolkit/features/blogsSlice';
 import { useSelector, useDispatch } from 'react-redux'
+import { getDateFormat } from '../utils/getDateFormat';
 const Home = () => {
   const dispatch = useDispatch()
   const { blogs } = useSelector((state) => state.blogsSlice)
@@ -12,19 +13,21 @@ const Home = () => {
       dispatch(getAllBlogs())
     }
   }, [])
+  let random = Math.floor(Math.random() * blogs.length)
+  const formattedDate = getDateFormat(blogs[random].createdAt)
   return (
     <>
       {/* top section */}
       <section className='h-[670px] w-full relative mb-28 '>
-        <img src="images/Image.png" alt="main" className='h-full w-full object-cover rounded-2xl' />
+        <img src={blogs[random].image || "images/Image.png"} alt="main" className='h-[80vh] w-full object-cover rounded-2xl' />
         {/* blog info */}
-        <div className='absolute bottom-[-10%] left-[4%] rounded-md bg-white w-[96%] sm:w-[600px] flex flex-col gap-y-4 p-8 shadow-md'>
-          <Button text={"technology"} />
-          <h1 className='text-4xl font-medium'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus ducimus arc!</h1>
+        <div className='absolute sm:bottom-[15%] bottom-[-15%] left-[4%] rounded-md bg-white w-[96%] sm:w-[600px] flex flex-col gap-y-4 p-8 shadow-md'>
+          <Button text={blogs[random].category} />
+          <h1 className='text-4xl font-medium'>{blogs && blogs[random].title}</h1>
           <div className='flex items-center justify-between w-full sm:w-1/2'>
-            <img src="images/user1.png" alt="user1" />
-            <p className='capitalize text-[#97989F]'>john doe</p>
-            <p className='capitalize text-[#97989F]'>august20,2022</p>
+            <img src={blogs[random].authorImage || "images/user.png"} alt="user1" className='h-[50px] w-[50px] rounded-full' />
+            <p className='capitalize text-[#97989F] font-medium'>{blogs && blogs[random].authorName}</p>
+            <p className='text-sm text-[#97989F] font-medium'>{formattedDate.toLocaleString('en-US', { month: 'long' })}{" "}{formattedDate.getDate()},{" "}{formattedDate.getFullYear()}</p>
           </div>
         </div>
       </section>
