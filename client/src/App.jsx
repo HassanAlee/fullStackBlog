@@ -11,6 +11,7 @@ import Protected from "./components/Protected";
 import NewBlog from "./pages/NewBlog";
 import UpdateBlog from "./pages/UpdateBlog";
 import UpdateProfile from "./pages/UpdateProfile";
+import SingleAuthor from "./pages/SingleAuthor";
 const App = () => {
   let pathName = window.location.pathname;
   return (
@@ -29,6 +30,7 @@ const App = () => {
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/authors/:id" element={<SingleAuthor />} />
         </Routes>
       </div>
     </>

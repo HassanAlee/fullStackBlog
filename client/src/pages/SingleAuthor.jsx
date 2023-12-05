@@ -11,16 +11,15 @@ const SingleAuthor = () => {
     const { blogs } = useSelector((state) => state.blogsSlice)
     useEffect(() => {
         if (blogs.length == 0) {
-            dispatch(getAllBlogs(currentUser._id))
+            dispatch(getAllBlogs())
         }
     }, [])
+    let thisAuthor = authors.find((author) => author._id == id);
+    let { _id } = thisAuthor;
     return (
         <>
             <ProfileTop currentUser={authors.find((author) => author._id == id)} />
-            {
-                window.location.pathname == "/profile" ? <AllBlogs blogs={blogs.filter((blog) => blog.authorRef == currentUser._id)} /> : <AllBlogs blogs={blogs} />
-            }
-
+            <AllBlogs blogs={blogs.filter((blog) => blog.authorRef == _id)} />
         </>
     )
 }

@@ -13,7 +13,7 @@ const Authors = () => {
   return (
     <div className='flex md:gap-x-4 lg:gap-8 flex-wrap w-full px-8 md:px-0'>{authors && authors.map((author) => {
       return (
-        <Link className='flex gap-x-8  gap-y-4 items-center shadow-md hover:shadow-2xl px-4 py-2 rounded-lg md:w-[48%] lg:w-1/4 w-full'>
+        <Link to={`/authors/${author._id}`} className='flex gap-x-8 mt-8 sm:mt-0 sm:gap-y-4 items-center shadow-md hover:shadow-2xl  hover:bg-[#c7ecee] px-4 py-2 rounded-lg md:w-[48%] lg:w-1/4 w-full'>
           <img src={author.profile || "images/user.png"} alt={author.name} className='h-[70px] w-[70px] rounded-full' />
           <div>
             <h1 className='font-medium'>{author.name}</h1>

@@ -3,6 +3,7 @@ import { FaFacebookSquare, FaInstagramSquare, FaLinkedin, FaTwitterSquare, FaYou
 import { Link, useNavigate } from 'react-router-dom';
 import Button from './Button';
 export const ProfileTop = ({ currentUser }) => {
+    console.log(currentUser);
     const socialList = [
         {
             icon: <FaFacebookSquare />,
@@ -34,7 +35,7 @@ export const ProfileTop = ({ currentUser }) => {
         <div className='bg-[#f6f6f7] px-10 sm:px-40 py-10 rounded-lg'>
             {/* img and name */}
             <article className='flex justify-center items-center gap-x-4 '>
-                <img src={currentUser.profile || "images/user.png"} className='h-12 w-12 rounded-full' alt={currentUser.name} />
+                <img src={currentUser.profile ? currentUser.profile : "user.png" ? "user.png" : "/public/images/user.png"} className='h-12 w-12 rounded-full' alt={currentUser.name} />
                 <div>
                     <h1 className='text-[#181A2A]'>{currentUser.name}</h1>
                     <h4 className='text-sm text-[#696A75]'>{currentUser.country}</h4>

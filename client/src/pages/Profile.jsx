@@ -9,16 +9,13 @@ const Profile = () => {
   const { blogs } = useSelector((state) => state.blogsSlice)
   useEffect(() => {
     if (blogs.length == 0) {
-      dispatch(getAllBlogs(currentUser._id))
+      dispatch(getAllBlogs())
     }
   }, [])
   return (
     <>
       <ProfileTop currentUser={currentUser} />
-      {
-        window.location.pathname == "/profile" ? <AllBlogs blogs={blogs.filter((blog) => blog.authorRef == currentUser._id)} /> : <AllBlogs blogs={blogs} />
-      }
-
+      <AllBlogs blogs={blogs.filter((blog) => blog.authorRef == currentUser._id)} />
     </>
   )
 }
