@@ -46,7 +46,7 @@ export const ProfileTop = ({ currentUser }) => {
             {/* socials */}
             <div className='flex justify-center gap-x-2 text-3xl text-[#696A75]'>
                 {
-                    socialList.map((link, i) => link.url || link.url != "" && <Link key={i} to={link.url} target='_blank'>{link.icon}</Link>)
+                    socialList.map((link, i) => (link.url || link.url != "") && <Link key={i} to={link.url} target='_blank'>{link.icon}</Link>)
                 }
             </div>
             {/* buttons */}
