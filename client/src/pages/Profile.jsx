@@ -15,7 +15,7 @@ const Profile = () => {
   return (
     <>
       <ProfileTop currentUser={currentUser} />
-      <AllBlogs blogs={blogs.filter((blog) => blog.authorRef == currentUser._id)} />
+      <AllBlogs blogs={blogs.filter((blog) => blog.authorRef == currentUser._id)} icons={true} />
     </>
   )
 }

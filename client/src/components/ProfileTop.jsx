@@ -3,7 +3,6 @@ import { FaFacebookSquare, FaInstagramSquare, FaLinkedin, FaTwitterSquare, FaYou
 import { Link, useNavigate } from 'react-router-dom';
 import Button from './Button';
 export const ProfileTop = ({ currentUser }) => {
-    console.log(currentUser);
     const socialList = [
         {
             icon: <FaFacebookSquare />,
