@@ -12,6 +12,7 @@ import NewBlog from "./pages/NewBlog";
 import UpdateBlog from "./pages/UpdateBlog";
 import UpdateProfile from "./pages/UpdateProfile";
 import SingleAuthor from "./pages/SingleAuthor";
+import OpenBlog from "./pages/OpenBlog";
 const App = () => {
   let pathName = window.location.pathname;
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/authors/:id" element={<SingleAuthor />} />
+          <Route path="/blog/:id" element={<OpenBlog />} />
         </Routes>
       </div>
     </>

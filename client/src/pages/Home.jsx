@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <>
       {/* top section */}
-      <section className='h-[670px] w-full relative mb-28 '>
+      <section className='h-[670px] w-full relative mb-28 sm:mb-0'>
         <img src={blogs[random].image || "images/Image.png"} alt="main" className='h-[80vh] w-full object-cover rounded-2xl' />
         {/* blog info */}
         <div className='absolute sm:bottom-[15%] bottom-[-15%] left-[4%] rounded-md bg-white w-[96%] sm:w-[600px] flex flex-col gap-y-4 p-8 shadow-md'>
