@@ -1,10 +1,11 @@
 import React from 'react'
 import { getDateFormat } from '../utils/getDateFormat'
-import { Link } from 'react-router-dom'
-import { FiEdit, FiLogIn } from "react-icons/fi"
+import { Link, useNavigate } from 'react-router-dom'
+import { FiEdit, } from "react-icons/fi"
 import { FaTrash } from "react-icons/fa";
 const SingleBlog = ({ _id, title, authorImage, authorName, authorRef, image, category, createdAt, icons }) => {
     const formattedDate = getDateFormat(createdAt)
+    const navigate = useNavigate()
     return (
         <Link to={`/blog/${_id}`} className='sm:w-[32.5%]  w-full  p-4 border rounded-md mb-4 relative z-0'>
             {
@@ -12,7 +13,7 @@ const SingleBlog = ({ _id, title, authorImage, authorName, authorRef, image, cat
                     <FiEdit className='hover:text-red-700' onClick={(e) => {
                         e.stopPropagation()
                         e.preventDefault()
-                        console.log("editing")
+                        navigate(`/update-blog/${_id}`)
                     }} />
                     <FaTrash className='hover:text-red-700' />
                 </div>
