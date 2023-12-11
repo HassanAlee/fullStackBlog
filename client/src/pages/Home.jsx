@@ -16,7 +16,7 @@ const Home = () => {
   let random = Math.floor(Math.random() * blogs.length)
   let formattedDate = getDateFormat(blogs[random]?.createdAt)
   useEffect(() => {
-    Math.floor(Math.random() * blogs.length)
+    random = Math.floor(Math.random() * blogs.length)
     formattedDate = getDateFormat(blogs[random]?.createdAt)
   }, [blogs])
   return (
