@@ -48,6 +48,36 @@ export const getAllBlogs = createAsyncThunk(
     }
   }
 );
+// update a blog
+export const updateABlog = createAsyncThunk(
+  "updateBlog/blogsSlice",
+  async (data) => {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    const raw = JSON.stringify(data);
+    const requestOptions = {
+      method: "PATCH",
+      headers,
+      body: raw,
+    };
+    let res = await fetch(
+      `/api/v1/blog/update-blog/${data._id}`,
+      requestOptions
+    );
+    if (!res.ok) {
+      res = await res.json();
+      toast.error(res.message, {
+        duration: 6000,
+      });
+      return thunkAPI.rejectWithValue(res.message);
+    }
+    res = await res.json();
+    toast.success("Blog updated successfully", {
+      duration: 2000,
+    });
+    return res;
+  }
+);
 const blogsSlice = createSlice({
   name: "blogsSlice",
   initialState,
@@ -71,6 +101,19 @@ const blogsSlice = createSlice({
       state.blogs = action.payload;
     },
     [getAllBlogs.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [updateABlog.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateABlog.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.blogs = state.blogs.map((blog) =>
+        blog._id == action.payload._id ? action.payload : blog
+      );
+    },
+    [updateABlog.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },

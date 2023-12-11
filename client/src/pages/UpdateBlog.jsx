@@ -10,7 +10,7 @@ import {
     ref,
     uploadBytesResumable,
 } from 'firebase/storage';
-import { addBlog } from '../redux-toolkit/features/blogsSlice';
+import { updateABlog } from '../redux-toolkit/features/blogsSlice';
 const catList = ["Technology", "Motivation", "Entertainment", "Sports", "Traveling"]
 const UpdateBlog = () => {
     const { blogs } = useSelector((state) => state.blogsSlice)
@@ -24,11 +24,14 @@ const UpdateBlog = () => {
     const dispatch = useDispatch()
     const [blogData, setBlogData] = useState(() => {
         return {
+            _id: thisBlog._id,
             title: thisBlog.title,
             description: thisBlog.description,
             authorRef: thisBlog.authorRef,
             image: thisBlog.image,
-            category: thisBlog.category
+            category: thisBlog.category,
+            authorName: thisBlog.authorName,
+            authorImage: thisBlog.authorImage
         }
     })
     // firebase related
@@ -37,6 +40,7 @@ const UpdateBlog = () => {
     const [fileUploadError, setFileUploadError] = useState(false);
     // image upload function
     const handleFileUpload = (file) => {
+        setBlogData({ ...blogData, image: "" })
         const storage = getStorage(app);
         const fileName = new Date().getTime() + file.name;
         const storageRef = ref(storage, fileName);
@@ -73,15 +77,16 @@ const UpdateBlog = () => {
     }
     // submit handler to create the blog
     const handleSubmit = () => {
-        dispatch(addBlog({ ...blogData, authorName: currentUser.name, authorImage: currentUser.profile || "/images/user.png" })).then((res) => {
+        dispatch(updateABlog(blogData)).then((res) => {
+            console.log(res);
             if (res.payload.hasOwnProperty("description")) {
                 setTimeout(() => {
-                    navigate('/profile');
+                    navigate("/profile")
+
                 }, 3000)
             }
-
         })
-    };
+    }
     return (
         <section className=' flex justify-between flex-col sm:flex-row p-4 sm:p-0'>
             <article className=' w-full sm:w-3/5'>
@@ -96,9 +101,11 @@ const UpdateBlog = () => {
             <article className=' w-full sm:w-2/6 py-8 px-3 rounded-md bg-[#f6f6f7]'>
                 <p className='text-center text-[#8395a7] text-sm'>Click the icon below to upload an image</p>
                 <div className='text-center'>
-                    <label htmlFor="image" className=' text-center'>
+                    <label htmlFor="image" className=' text-center relative'>
                         {
-                            !blogData.image ? !file ? <FaImage className='w-3/4 text-[#8395a7] h-1/4 mx-auto cursor-pointer' /> : <p className='mt-4 text-sm text-green-500'>Please wait till image is uploaded</p> : !fileUploadError ? <img src={blogData.image} alt='image' className='mt-4' /> : <p className='mt-4 text-sm text-red-500'>Something went wrong while uploading</p>
+                            !blogData.image ? !file ? <FaImage className='w-3/4 text-[#8395a7] h-1/4 mx-auto cursor-pointer' /> : <p className='mt-4 text-sm text-green-500'>Please wait till image is uploaded</p> : !fileUploadError ? <>
+                                <img src={blogData.image} alt='image' className='mt-4' />
+                            </> : <p className='mt-4 text-sm text-red-500'>Something went wrong while uploading</p>
                         }
                     </label>
                     <input type="file" id='image' name='image' accept='image/*' className='invisible' onChange={(e) => {
