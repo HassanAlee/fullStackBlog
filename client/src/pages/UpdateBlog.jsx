@@ -11,6 +11,8 @@ import {
     uploadBytesResumable,
 } from 'firebase/storage';
 import { updateABlog } from '../redux-toolkit/features/blogsSlice';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 const catList = ["Technology", "Motivation", "Entertainment", "Sports", "Traveling"]
 const UpdateBlog = () => {
     const { blogs } = useSelector((state) => state.blogsSlice)
@@ -22,11 +24,11 @@ const UpdateBlog = () => {
     const { currentUser } = useSelector((state) => state.userSlice)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [description, setDescription] = useState(thisBlog.description)
     const [blogData, setBlogData] = useState(() => {
         return {
             _id: thisBlog._id,
             title: thisBlog.title,
-            description: thisBlog.description,
             authorRef: thisBlog.authorRef,
             image: thisBlog.image,
             category: thisBlog.category,
@@ -77,8 +79,7 @@ const UpdateBlog = () => {
     }
     // submit handler to create the blog
     const handleSubmit = () => {
-        dispatch(updateABlog(blogData)).then((res) => {
-            console.log(res);
+        dispatch(updateABlog({ ...blogData, description })).then((res) => {
             if (res.payload.hasOwnProperty("description")) {
                 setTimeout(() => {
                     navigate("/profile")
@@ -91,12 +92,13 @@ const UpdateBlog = () => {
         <section className=' flex justify-between flex-col sm:flex-row p-4 sm:p-0'>
             <article className=' w-full sm:w-3/5'>
                 <input type="text" placeholder='Add Title' name='title' id='title' className='bg-[#f6f6f7] w-full px-5 py-3 text-2xl outline-0 mb-4 rounded-md' value={blogData.title} onChange={handleChange} /> <br />
-                <textarea name="description" id="description" placeholder='Start writing your blog here'
+                {/* <textarea name="description" id="description" placeholder='Start writing your blog here'
                     className='bg-[#f6f6f7] w-full px-5 py-3 text-base outline-0 mb-4 rounded-md resize-none' rows={15}
                     value={blogData.description}
                     onChange={handleChange}
                 >
-                </textarea>
+                </textarea> */}
+                <ReactQuill theme="snow" name="description" value={description} onChange={setDescription} />
             </article>
             <article className=' w-full sm:w-2/6 py-8 px-3 rounded-md bg-[#f6f6f7]'>
                 <p className='text-center text-[#8395a7] text-sm'>Click the icon below to upload an image</p>
