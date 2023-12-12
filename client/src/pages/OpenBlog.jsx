@@ -32,7 +32,7 @@ const OpenBlog = () => {
             <div className='w-full h-50vh sm:h-[70vh] my-10'>
                 <img src={thisBlog.image} alt="title_image" className='h-full w-full rounded-xl' />
             </div>
-            <h1 className='text-justify text-xl mb-10'>{thisBlog.description}</h1>
+            < p className='text-justify text-xl mb-10 list-inside list-decimal' dangerouslySetInnerHTML={{ __html: thisBlog.description }} />
         </section>
     )
 }

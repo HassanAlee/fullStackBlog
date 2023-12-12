@@ -4,6 +4,8 @@ import Button from '../components/Button'
 import { FaImage } from "react-icons/fa6";
 import { useSelector, useDispatch } from 'react-redux'
 import { app } from '../firebase';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
     getDownloadURL,
     getStorage,
@@ -16,10 +18,10 @@ const NewBlog = () => {
     const { currentUser } = useSelector((state) => state.userSlice)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [description, setDescription] = useState('')
     const [blogData, setBlogData] = useState(() => {
         return {
             title: "",
-            description: "",
             authorRef: "",
             image: "",
             category: ""
@@ -63,29 +65,30 @@ const NewBlog = () => {
     }, [file])
     // change handler to update the state
     const handleChange = (e) => {
+        ;
         setBlogData({ ...blogData, [e.target.name]: e.target.value, authorRef: currentUser._id })
     }
     // submit handler to create the blog
     const handleSubmit = () => {
-        dispatch(addBlog({ ...blogData, authorName: currentUser.name, authorImage: currentUser.profile || "/images/user.png" })).then((res) => {
+        dispatch(addBlog({ ...blogData, description, authorName: currentUser.name, authorImage: currentUser.profile || "/images/user.png" })).then((res) => {
             if (res.payload.hasOwnProperty("description")) {
                 setTimeout(() => {
                     navigate('/profile');
                 }, 3000)
             }
-
         })
     };
     return (
         <section className=' flex justify-between flex-col sm:flex-row p-4 sm:p-0'>
             <article className=' w-full sm:w-3/5'>
                 <input type="text" placeholder='Add Title' name='title' id='title' className='bg-[#f6f6f7] w-full px-5 py-3 text-2xl outline-0 mb-4 rounded-md' value={blogData.title} onChange={handleChange} /> <br />
-                <textarea name="description" id="description" placeholder='Start writing your blog here'
+                {/* <textarea name="description" id="description" placeholder='Start writing your blog here'
                     className='bg-[#f6f6f7] w-full px-5 py-3 text-base outline-0 mb-4 rounded-md resize-none' rows={15}
                     value={blogData.description}
                     onChange={handleChange}
                 >
-                </textarea>
+                </textarea> */}
+                <ReactQuill theme="snow" name="description" value={description} onChange={setDescription} />
             </article>
             <article className=' w-full sm:w-2/6 py-8 px-3 rounded-md bg-[#f6f6f7]'>
                 <p className='text-center text-[#8395a7] text-sm'>Click the icon below to upload an image</p>
