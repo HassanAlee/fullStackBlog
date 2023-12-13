@@ -59,6 +59,21 @@ export const loginUSer = createAsyncThunk(
     return res;
   }
 );
+// validate user
+export const validateUser = createAsyncThunk(
+  "userSlice/validateUser",
+  async () => {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "Get",
+      headers,
+    };
+    let res = await fetch("/api/v1/user/verifyToken", requestOptions);
+    res = await res.json();
+    console.log(res.message);
+  }
+);
 // update user
 export const updateUser = createAsyncThunk(
   "userSlice/updateUser",

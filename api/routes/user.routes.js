@@ -10,4 +10,5 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.patch("/update-profile", verifyToken, updateProfile);
 router.get("/all-authors", getAllAuthors);
+router.get("/verifyToken", verifyToken);
 module.exports = router;

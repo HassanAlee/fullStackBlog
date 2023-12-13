@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import AllBlogs from '../components/AllBlogs';
-import Cookies from 'js-cookie'
 import Button from '../components/Button';
 import { getAllBlogs } from '../redux-toolkit/features/blogsSlice';
 import { useSelector, useDispatch } from 'react-redux'
 import { getDateFormat } from '../utils/getDateFormat';
+import { validateUser } from '../redux-toolkit/features/userSlice';
 const Home = () => {
   const dispatch = useDispatch()
   const { blogs } = useSelector((state) => state.blogsSlice)
@@ -12,6 +12,7 @@ const Home = () => {
     if (blogs.length == 0) {
       dispatch(getAllBlogs())
     }
+    dispatch(validateUser())
   }, [])
   let random = Math.floor(Math.random() * blogs.length)
   let formattedDate = getDateFormat(blogs[random]?.createdAt)
