@@ -70,8 +70,9 @@ export const validateUser = createAsyncThunk(
       headers,
     };
     let res = await fetch("/api/v1/user/verifyToken", requestOptions);
-    res = await res.json();
-    console.log(res.message);
+    if (res.status == 401) {
+      thunkAPI.rejectWithValue("not found");
+    }
   }
 );
 // update user
@@ -160,6 +161,9 @@ const userSlice = createSlice({
     [getAllAuthors.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    [validateUser.rejected]: (state, action) => {
+      (state.loading = false), (state.currentUser = "");
     },
   },
 });
