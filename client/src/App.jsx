@@ -17,7 +17,7 @@ const App = () => {
   let pathName = window.location.pathname;
   return (
     <>
-      <div className={`${pathName == "/register" || pathName == "/login" || pathName == "/update-profile" ? "" : "sm:px-40"}`}>
+      <div className={`${pathName == "/register" || pathName == "/login" || pathName == "/update-profile" ? "" : "md:px-40"}`}>
         {pathName == "/register" || pathName == "/login" || pathName == "/update-profile" ? "" : <Header />}
         <Routes>
           <Route path="/" element={<Home />} />

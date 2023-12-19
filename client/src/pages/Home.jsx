@@ -26,7 +26,7 @@ const Home = () => {
       <section className='h-[670px] w-full relative mb-28 sm:mb-0'>
         <img src={blogs[random]?.image || "images/Image.png"} alt="main" className='h-[80vh] w-full object-cover rounded-2xl' />
         {/* blog info */}
-        <div className='absolute sm:bottom-[15%] bottom-[-15%] left-[4%] rounded-md bg-white w-[96%] sm:w-[600px] flex flex-col gap-y-4 p-8 shadow-md'>
+        <div className='absolute sm:bottom-[25%] md:bottom-[15%] bottom-[-15%] left-[4%] rounded-md bg-white w-[96%] md:w-[600px] flex flex-col gap-y-4 p-8 shadow-md'>
           <Button text={blogs[random]?.category} />
           <h1 className='text-4xl font-medium'>{blogs && blogs[random]?.title}</h1>
           <div className='flex items-center justify-between w-full sm:w-1/2'>

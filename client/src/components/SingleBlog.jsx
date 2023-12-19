@@ -7,7 +7,7 @@ const SingleBlog = ({ _id, title, authorImage, authorName, authorRef, image, cat
     const formattedDate = getDateFormat(createdAt)
     const navigate = useNavigate()
     return (
-        <Link to={`/blog/${_id}`} className='sm:w-[32.5%]  w-full  p-4 border rounded-md mb-4 relative z-0'>
+        <Link to={`/blog/${_id}`} className='md:w-[32.5%]  w-full  p-4 border rounded-md mb-4 relative z-0'>
             {
                 icons && <div className='absolute top-4 right-4 flex gap-x-1 text-xl text-[#4b6bfb] z-30 '>
                     <FiEdit className='hover:text-red-700' onClick={(e) => {
