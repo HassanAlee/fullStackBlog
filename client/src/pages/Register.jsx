@@ -42,7 +42,7 @@ const Register = () => {
                         <div className='flex flex-col mb-4'>
                             <label htmlFor="password" className='mb-1'>Password</label>
                             <div className='flex items-center border rounded-md pr-4'>
-                                <input type={showPass ? "text" : "password"} id='password' name='password' className='rounded-lg py-2 px-3 outline-none w-full' value={userData.password} onChange={handleChange} />
+                                <input type={showPass ? "text" : "password"} id='password' name='password' className='rounded-lg py-2 px-3 outline-none w-full bg-transparent' value={userData.password} onChange={handleChange} />
                                 <span onClick={() => setShowPass(prev => !prev)} className='cursor-pointer'>
                                     {showPass ? <FaRegEye /> : <FaRegEyeSlash />}
                                 </span>

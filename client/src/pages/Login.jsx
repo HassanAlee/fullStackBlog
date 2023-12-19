@@ -30,10 +30,10 @@ const Register = () => {
         })
     }
     return (
-        <section className='h-screen w-full  flex justify-between flex-col sm:flex-row'>
+        <section className='h-full w-full  flex justify-between flex-col sm:flex-row'>
             {/* form side */}
             <article className='flex-1 h-full'>
-                <div className='h-full w-full flex items-center justify-center'>
+                <div className='h-full w-full flex sm:items-center mt-20 sm:mt-0 justify-center'>
                     <form className='text-sm w-full sm:w-[60%] px-4 sm:px-0' onSubmit={submitHandler}>
                         <h1 className='capitalize font-medium text-3xl'>Welcome back!</h1>
                         <h5 className='mb-8 mt-2'>Enter your credentials to access your account</h5>
