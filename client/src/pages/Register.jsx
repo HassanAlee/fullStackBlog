@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { registerUser } from '../redux-toolkit/features/userSlice'
 import { useDispatch } from 'react-redux'
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 const Register = () => {
     const dispatch = useDispatch()
+    const [showPass, setShowPass] = useState(false)
     const [userData, setUserData] = useState(() => {
         return { name: "", email: "", password: "", country: "" }
     })
@@ -39,7 +41,12 @@ const Register = () => {
                         </div>
                         <div className='flex flex-col mb-4'>
                             <label htmlFor="password" className='mb-1'>Password</label>
-                            <input type="text" id='password' name='password' className='rounded-lg py-2 px-3 outline-none border' onChange={handleChange} value={userData.password} />
+                            <div className='flex items-center border rounded-md pr-4'>
+                                <input type={showPass ? "text" : "password"} id='password' name='password' className='rounded-lg py-2 px-3 outline-none w-full' value={userData.password} onChange={handleChange} />
+                                <span onClick={() => setShowPass(prev => !prev)} className='cursor-pointer'>
+                                    {showPass ? <FaRegEye /> : <FaRegEyeSlash />}
+                                </span>
+                            </div>
                         </div>
                         <div className='flex flex-col mb-4'>
                             <label htmlFor="country" className='mb-1'>Country</label>
