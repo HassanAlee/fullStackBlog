@@ -15,7 +15,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 const catList = ["Technology", "Motivation", "Entertainment", "Sports", "Traveling"]
 const UpdateBlog = () => {
-    const { blogs } = useSelector((state) => state.blogsSlice)
+    const { blogs, loading } = useSelector((state) => state.blogsSlice)
     const { id } = useParams()
     let thisBlog = blogs.find((blog) => blog._id == id)
     useEffect(() => {
@@ -119,10 +119,10 @@ const UpdateBlog = () => {
                         catList.map((item, i) => <option value={item} key={i}>{item}</option>)
                     }
                 </select>
-                <div className='flex gap-x-4 justify-center'>
-                    <Button text={"publish"} click={handleSubmit} />
+                {!loading && <div className='flex gap-x-4 justify-center'>
+                    <Button text={"update"} click={handleSubmit} />
                     <Button text={"cancel"} />
-                </div>
+                </div>}
             </article>
         </section>
     )

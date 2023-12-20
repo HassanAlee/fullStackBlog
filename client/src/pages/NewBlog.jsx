@@ -16,6 +16,7 @@ import { addBlog } from '../redux-toolkit/features/blogsSlice';
 const catList = ["Technology", "Motivation", "Entertainment", "Sports", "Traveling"]
 const NewBlog = () => {
     const { currentUser } = useSelector((state) => state.userSlice)
+    const { loading } = useSelector(state => state.blogsSlice)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [description, setDescription] = useState('')
@@ -107,10 +108,12 @@ const NewBlog = () => {
                         catList.map((item, i) => <option value={item} key={i}>{item}</option>)
                     }
                 </select>
-                <div className='flex gap-x-4 justify-center'>
-                    <Button text={"publish"} click={handleSubmit} />
-                    <Button text={"cancel"} />
-                </div>
+                {
+                    !loading && <div className='flex gap-x-4 justify-center'>
+                        <Button text={"publish"} click={handleSubmit} />
+                        <Button text={"cancel"} />
+                    </div>
+                }
             </article>
         </section>
     )
