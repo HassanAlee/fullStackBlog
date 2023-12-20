@@ -80,8 +80,8 @@ const NewBlog = () => {
         })
     };
     return (
-        <section className=' flex justify-between flex-col sm:flex-row p-4 sm:p-0'>
-            <article className=' w-full sm:w-3/5'>
+        <section className=' flex justify-between flex-col md:flex-row p-4 md:p-0'>
+            <article className=' w-full md:w-3/5'>
                 <input type="text" placeholder='Add Title' name='title' id='title' className='bg-[#f6f6f7] w-full px-5 py-3 text-2xl outline-0 mb-4 rounded-md' value={blogData.title} onChange={handleChange} /> <br />
                 {/* <textarea name="description" id="description" placeholder='Start writing your blog here'
                     className='bg-[#f6f6f7] w-full px-5 py-3 text-base outline-0 mb-4 rounded-md resize-none' rows={15}
@@ -91,12 +91,12 @@ const NewBlog = () => {
                 </textarea> */}
                 <ReactQuill theme="snow" name="description" value={description} onChange={setDescription} />
             </article>
-            <article className=' w-full sm:w-2/6 py-8 px-3 rounded-md bg-[#f6f6f7]'>
-                <p className='text-center text-[#8395a7] text-sm'>Click the icon below to upload an image</p>
+            <article className=' w-full md:w-2/6 py-8 px-3 rounded-md bg-[#f6f6f7]'>
+                <p className='text-center text-[#8395a7] text-md'>Click the icon below to upload an image</p>
                 <div className='text-center'>
                     <label htmlFor="image" className=' text-center'>
                         {
-                            !blogData.image ? !file ? <FaImage className='w-3/4 text-[#8395a7] h-1/4 mx-auto cursor-pointer' /> : <p className='mt-4 text-sm text-green-500'>Please wait till image is uploaded</p> : !fileUploadError ? <img src={blogData.image} alt='image' className='mt-4' /> : <p className='mt-4 text-sm text-red-500'>Something went wrong while uploading</p>
+                            !blogData.image ? !file ? <FaImage className='sm:w-3/4 text-[#8395a7] sm:h-1/4 mx-auto cursor-pointer h-1/2 w-1/2' /> : <p className='mt-4 text-md text-green-500'>Please wait till image is uploaded</p> : !fileUploadError ? <img src={blogData.image} alt='image' className='mt-4' /> : <p className='mt-4 text-md text-red-500'>Something went wrong while uploading</p>
                         }
                     </label>
                     <input type="file" id='image' name='image' accept='image/*' className='invisible' onChange={(e) => {
