@@ -22,6 +22,7 @@ let navItems = [
 ]
 const Header = () => {
   const { currentUser } = useSelector((state) => state.userSlice)
+  console.log(currentUser);
   return (
     (
       <>
@@ -36,7 +37,7 @@ const Header = () => {
               navItems.map((item, index) => <Link key={index} to={item.path} className='md:mx-5 mx-2 w-1/4 text-xl'>{item.text}</Link>)
             }
             <Link className='md:mx-5 mx-2 w-1/4 text-xl' to={currentUser ? "/profile" : "/login"}>
-              {currentUser ? currentUser.name : "Login"}
+              {currentUser ? ((currentUser.profile == '' || !currentUser.profile) ? <img src="./user.png" alt={currentUser.name} className='h-10 w-10 rounded-full' /> : <img src={currentUser.profile} alt={currentUser.name} className='h-10 w-10 rounded-full' />) : "Login"}
             </Link>
           </ul>
 
