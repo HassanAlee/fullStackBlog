@@ -2,7 +2,10 @@ import React from 'react'
 import { FaFacebookSquare, FaInstagramSquare, FaLinkedin, FaTwitterSquare, FaYoutubeSquare } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import Button from './Button';
+import { logout } from '../redux-toolkit/features/userSlice';
+import { useDispatch } from 'react-redux';
 export const ProfileTop = ({ currentUser }) => {
+    const dispatch = useDispatch()
     const socialList = [
         {
             icon: <FaFacebookSquare />,
@@ -39,6 +42,10 @@ export const ProfileTop = ({ currentUser }) => {
                 <div>
                     <h1 className='text-[#181A2A]'>{currentUser.name}</h1>
                     <h4 className='text-sm text-[#696A75]'>{currentUser.country}</h4>
+                    <div className='flex justify-between gap-3 mt-2'>
+                        <button className='bg-[#4B6BFB] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => dispatch(logout())}>logout</button>
+                        <button className='bg-[#c0392b] px-2 capitalize text-white rounded-md hover:opacity-50'>delete account</button>
+                    </div>
                 </div>
             </article>
             <p className='text-[#3B3C4A] text-lg text-center my-8'>

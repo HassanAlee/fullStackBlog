@@ -22,7 +22,6 @@ let navItems = [
 ]
 const Header = () => {
   const { currentUser } = useSelector((state) => state.userSlice)
-  console.log(currentUser);
   return (
     (
       <>

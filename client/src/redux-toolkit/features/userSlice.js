@@ -117,7 +117,11 @@ export const getAllAuthors = createAsyncThunk(
 const userSlice = createSlice({
   name: "userSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.currentUser = "";
+    },
+  },
   extraReducers: {
     [registerUser.pending]: (state, action) => {
       state.loading = true;
@@ -167,4 +171,5 @@ const userSlice = createSlice({
     },
   },
 });
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
