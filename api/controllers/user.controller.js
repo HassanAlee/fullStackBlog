@@ -1,5 +1,6 @@
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user.model.js");
+const Blog = require("../models/blog.model.js");
 const { errorHandler } = require("../utils/error.js");
 const jwt = require("jsonwebtoken");
 // register user controller
@@ -62,4 +63,17 @@ const getAllAuthors = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { registerUser, loginUser, updateProfile, getAllAuthors };
+// delete user controller
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+  let blog = await Blog.findOneAndDelete({ authorRef: id });
+  let user = await User.findOneAndDelete({ _id: id });
+  res.status(200).json(user);
+};
+module.exports = {
+  registerUser,
+  loginUser,
+  updateProfile,
+  getAllAuthors,
+  deleteUser,
+};
