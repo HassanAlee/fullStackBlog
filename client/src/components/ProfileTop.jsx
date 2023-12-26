@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from './Button';
 import { logout } from '../redux-toolkit/features/userSlice';
 import { useDispatch } from 'react-redux';
+import { deleteUser } from '../redux-toolkit/features/userSlice';
+import { deleteUserBlogs } from '../redux-toolkit/features/blogsSlice';
 export const ProfileTop = ({ currentUser }) => {
     const dispatch = useDispatch()
     const socialList = [
@@ -34,6 +36,12 @@ export const ProfileTop = ({ currentUser }) => {
         console.log("this will load the blogs");
     }
     const path = window.location.pathname;
+    // delete user account handler
+    const deleteAccount = (id) => {
+        dispatch(deleteUser(id)).then((res) => {
+            dispatch(deleteUserBlogs(res.payload._id))
+        })
+    }
     return (
         <div className='bg-[#f6f6f7] px-10 sm:px-40 py-10 rounded-lg'>
             {/* img and name */}
@@ -44,7 +52,7 @@ export const ProfileTop = ({ currentUser }) => {
                     <h4 className='text-sm text-[#696A75]'>{currentUser.country}</h4>
                     <div className='flex justify-between gap-3 mt-2'>
                         <button className='bg-[#4B6BFB] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => dispatch(logout())}>logout</button>
-                        <button className='bg-[#c0392b] px-2 capitalize text-white rounded-md hover:opacity-50'>delete account</button>
+                        <button className='bg-[#c0392b] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => deleteAccount(currentUser._id)}>delete account</button>
                     </div>
                 </div>
             </article>

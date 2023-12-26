@@ -78,10 +78,17 @@ export const updateABlog = createAsyncThunk(
     return res;
   }
 );
+// filter blogs of deleted user
 const blogsSlice = createSlice({
   name: "blogsSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    deleteUserBlogs: (state, action) => {
+      state.blogs = state.blogs.filter(
+        (blog) => blog.authorRef != action.payload
+      );
+    },
+  },
   extraReducers: {
     [addBlog.pending]: (state) => {
       state.loading = true;
@@ -119,4 +126,5 @@ const blogsSlice = createSlice({
     },
   },
 });
+export const { deleteUserBlogs } = blogsSlice.actions;
 export default blogsSlice.reducer;

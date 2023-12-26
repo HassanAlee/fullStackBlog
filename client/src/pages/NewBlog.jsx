@@ -13,6 +13,7 @@ import {
     uploadBytesResumable,
 } from 'firebase/storage';
 import { addBlog } from '../redux-toolkit/features/blogsSlice';
+import { getAllAuthors } from '../redux-toolkit/features/userSlice';
 const catList = ["Technology", "Motivation", "Entertainment", "Sports", "Traveling"]
 const NewBlog = () => {
     const { currentUser } = useSelector((state) => state.userSlice)
@@ -24,7 +25,7 @@ const NewBlog = () => {
         return {
             title: "",
             authorRef: "",
-            image: "",
+            image: "https://firebasestorage.googleapis.com/v0/b/fullstackblog-f877f.appspot.com/o/1701648042919motivation.jpg?alt=media&token=aad42cd7-0328-4493-8efc-98c05bf5def0",
             category: ""
         }
     })
@@ -72,6 +73,7 @@ const NewBlog = () => {
     // submit handler to create the blog
     const handleSubmit = () => {
         dispatch(addBlog({ ...blogData, description, authorName: currentUser.name, authorImage: currentUser.profile || "/images/user.png" })).then((res) => {
+            dispatch(getAllAuthors())
             if (res.payload.hasOwnProperty("description")) {
                 setTimeout(() => {
                     navigate('/profile');

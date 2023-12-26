@@ -114,6 +114,24 @@ export const getAllAuthors = createAsyncThunk(
     // console.log(res);
   }
 );
+// delete user account
+export const deleteUser = createAsyncThunk(
+  "userSlice/deleteUser",
+  async (id) => {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    const requestOptions = {
+      method: "DELETE",
+      headers,
+    };
+    let res = await fetch(`/api/v1/user/delete-account/${id}`, requestOptions);
+    if (!res.ok) {
+      toast.error("Something went wrong");
+    }
+    res = await res.json();
+    return res;
+  }
+);
 const userSlice = createSlice({
   name: "userSlice",
   initialState,
@@ -168,6 +186,16 @@ const userSlice = createSlice({
     },
     [validateUser.rejected]: (state, action) => {
       (state.loading = false), (state.currentUser = "");
+    },
+    [deleteUser.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [deleteUser.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.authors = state.authors.filter(
+        (author) => author._id != action.payload._id
+      );
+      state.currentUser = "";
     },
   },
 });
