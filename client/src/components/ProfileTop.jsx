@@ -10,7 +10,7 @@ import Modal from './Modal';
 export const ProfileTop = ({ currentUser }) => {
     const { currentUser: logedUser } = useSelector((state) => state.userSlice)
     const dispatch = useDispatch()
-    const [modalState, setModalState] = useState({ text: "", open: false, handler: null })
+    const [modalState, setModalState] = useState({ text: "", open: false, handler: null, btnText: '' })
     const socialList = [
         {
             icon: <FaFacebookSquare />,
@@ -46,8 +46,8 @@ export const ProfileTop = ({ currentUser }) => {
         })
     }
     // function to handle modal dynamically
-    const handleModal = (text, handler) => {
-        setModalState({ ...modalState, open: true, text, handler })
+    const handleModal = (text, handler, btnText) => {
+        setModalState({ ...modalState, open: true, text, handler, btnText })
     }
     return (
         <div className='bg-[#f6f6f7] px-10 sm:px-40 py-10 rounded-lg'>
@@ -60,17 +60,20 @@ export const ProfileTop = ({ currentUser }) => {
                     {
                         currentUser._id == logedUser._id && <div className='flex justify-between gap-3 mt-2'>
                             <button className='bg-[#4B6BFB] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => handleModal('Are you sure to logout?', () => {
-                                setModalState({ open: false, text: '', handler: '' })
+                                setModalState({ ...modalState, open: false, text: '', handler: '', btnText: '' })
                                 dispatch(logout())
-                            })}>logout</button>
-                            <button className='bg-[#c0392b] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => deleteAccount(currentUser._id)}>delete account</button>
+                            }, "logout")}>logout</button>
+                            <button className='bg-[#c0392b] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => handleModal("Are you sure to delete your account?", () => {
+                                setModalState({ ...modalState, open: false, text: '', handler: '', btnText: '' })
+                                dispatch(deleteAccount(currentUser._id))
+                            }, 'delete')}>delete account</button>
                         </div>
                     }
                 </div>
                 {modalState.open && <Modal><div className='bg-white p-10 rounded-md'>
                     <h1 className='text-3xl font-medium'>{modalState.text}</h1>
                     <div className='mt-4 flex gap-2 justify-center'>
-                        <button className='bg-[#c0392b] p-2 capitalize text-white rounded-md hover:opacity-50' onClick={(modalState.handler)}>logout</button>
+                        <button className='bg-[#c0392b] p-2 capitalize text-white rounded-md hover:opacity-50' onClick={(modalState.handler)}>{modalState.btnText}</button>
                         <button className='bg-[#4B6BFB] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => setModalState({ ...modalState, open: false })}>cancel</button>
                     </div>
                 </div></Modal>}
