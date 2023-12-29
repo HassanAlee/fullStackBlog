@@ -45,4 +45,13 @@ const updateBlog = async (req, res, next) => {
     next(error.message);
   }
 };
-module.exports = { addBlog, getAllBlogs, updateBlog };
+// delete a blog
+const deleteBlog = async (req, res, next) => {
+  try {
+    let blog = await Blog.findOneAndDelete({ _id: req.params.id });
+    return res.status(200).json(blog);
+  } catch (error) {
+    next(error.message);
+  }
+};
+module.exports = { addBlog, getAllBlogs, updateBlog, deleteBlog };
