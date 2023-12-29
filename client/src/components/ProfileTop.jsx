@@ -61,9 +61,9 @@ export const ProfileTop = ({ currentUser }) => {
                     }
                 </div>
                 {openModal && <Modal><div className='bg-white p-10 rounded-md'>
-                    <h1>Are you sure to logout.</h1>
-                    <div className='mt-2 flex gap-2 justify-center'>
-                        <button className='bg-[#4B6BFB] px-2 capitalize text-white rounded-md hover:opacity-50'>logout</button>
+                    <h1 className='text-3xl font-medium'>Are you sure to logout?</h1>
+                    <div className='mt-4 flex gap-2 justify-center'>
+                        <button className='bg-[#c0392b] p-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => dispatch(logout())}>logout</button>
                         <button className='bg-[#4B6BFB] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => setOpenModal(false)}>cancel</button>
                     </div>
                 </div></Modal>}
