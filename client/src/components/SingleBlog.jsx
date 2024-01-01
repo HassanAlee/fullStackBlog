@@ -1,34 +1,55 @@
-import React from 'react'
+import { useState } from 'react'
 import { getDateFormat } from '../utils/getDateFormat'
 import { Link, useNavigate } from 'react-router-dom'
 import { FiEdit, } from "react-icons/fi"
 import { FaTrash } from "react-icons/fa";
+import Modal from './Modal'
 const SingleBlog = ({ _id, title, authorImage, authorName, authorRef, image, category, createdAt, icons }) => {
     const formattedDate = getDateFormat(createdAt)
     const navigate = useNavigate()
+    const [modalState, setModalState] = useState({ open: false, btnText: "", handler: null, text: "" })
+    // modal handler
+    const handleModal = () => {
+        setModalState({ ...modalState, open: true, text: "Are you sure to delete this blog?", btnText: "delete" })
+    }
     return (
-        <Link to={`/blog/${_id}`} className='md:w-[32.5%]  w-full  p-4 border rounded-md mb-4 relative z-0'>
-            {
-                icons && <div className='absolute top-4 right-4 flex gap-x-1 text-xl text-[#4b6bfb] z-30 '>
-                    <FiEdit className='hover:text-red-700' onClick={(e) => {
-                        e.stopPropagation()
-                        e.preventDefault()
-                        navigate(`/update-blog/${_id}`)
-                    }} />
-                    <FaTrash className='hover:text-red-700' />
+        <>
+            {/* modal */}
+            {modalState.open && <Modal><div className='bg-white p-10 rounded-md'>
+                <h1 className='text-3xl font-medium'>{modalState.text}</h1>
+                <div className='mt-4 flex gap-2 justify-center'>
+                    <button className='bg-[#c0392b] p-2 capitalize text-white rounded-md hover:opacity-50' onClick={(modalState.handler)}>{modalState.btnText}</button>
+                    <button className='bg-[#4B6BFB] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => setModalState({ ...modalState, open: false })}>cancel</button>
                 </div>
-            }
-            <img src={image} alt={title} className='w-full object-cover h-[200px]' />
-            <h1 className='text-[#4b6bfb] bg-[#f6f8ff] p-[5px] inline-block rounded-md my-6 capitalize'>{category}</h1>
-            <h1 className='font-semibold text-2xl -mt-3'>{title}</h1>
-            <div className='flex items-center gap-x-4 mt-4'>
-                <img src={authorImage} alt={authorName} className='h-[40px] w-[40px] rounded-full' />
-                <div className='flex gap-x-3 text-[#97989f] items-center'>
-                    <h1 className='font-medium'>{authorName}</h1>
-                    <p className='text-sm'>{formattedDate.toLocaleString('en-US', { month: 'long' })}{" "}{formattedDate.getDate()},{" "}{formattedDate.getFullYear()}</p>
+            </div></Modal>}
+            <Link to={`/blog/${_id}`} className='md:w-[32.5%]  w-full  p-4 border rounded-md mb-4 relative z-0'>
+                {
+                    icons && <div className='absolute top-4 right-4 flex gap-x-1 text-xl text-[#4b6bfb] z-30 '>
+                        <FiEdit className='hover:text-red-700' onClick={(e) => {
+                            e.stopPropagation()
+                            e.preventDefault()
+                            navigate(`/update-blog/${_id}`)
+                        }} />
+                        <FaTrash className='hover:text-red-700' onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            handleModal()
+                        }} />
+                    </div>
+                }
+                <img src={image} alt={title} className='w-full object-cover h-[200px]' />
+                <h1 className='text-[#4b6bfb] bg-[#f6f8ff] p-[5px] inline-block rounded-md my-6 capitalize'>{category}</h1>
+                <h1 className='font-semibold text-2xl -mt-3'>{title}</h1>
+                <div className='flex items-center gap-x-4 mt-4'>
+                    <img src={authorImage} alt={authorName} className='h-[40px] w-[40px] rounded-full' />
+                    <div className='flex gap-x-3 text-[#97989f] items-center'>
+                        <h1 className='font-medium'>{authorName}</h1>
+                        <p className='text-sm'>{formattedDate.toLocaleString('en-US', { month: 'long' })}{" "}{formattedDate.getDate()},{" "}{formattedDate.getFullYear()}</p>
+                    </div>
                 </div>
-            </div>
-        </Link>
+            </Link>
+        </>
+
     )
 }
 
