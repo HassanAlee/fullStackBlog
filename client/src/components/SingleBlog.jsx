@@ -4,24 +4,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FiEdit, } from "react-icons/fi"
 import { FaTrash } from "react-icons/fa";
 import Modal from './Modal'
+import toast from 'react-hot-toast';
 const SingleBlog = ({ _id, title, authorImage, authorName, authorRef, image, category, createdAt, icons }) => {
     const formattedDate = getDateFormat(createdAt)
     const navigate = useNavigate()
-    const [modalState, setModalState] = useState({ open: false, btnText: "", handler: null, text: "" })
-    // modal handler
-    const handleModal = () => {
-        setModalState({ ...modalState, open: true, text: "Are you sure to delete this blog?", btnText: "delete" })
-    }
     return (
         <>
-            {/* modal */}
-            {modalState.open && <Modal><div className='bg-white p-10 rounded-md'>
-                <h1 className='text-3xl font-medium'>{modalState.text}</h1>
-                <div className='mt-4 flex gap-2 justify-center'>
-                    <button className='bg-[#c0392b] p-2 capitalize text-white rounded-md hover:opacity-50' onClick={(modalState.handler)}>{modalState.btnText}</button>
-                    <button className='bg-[#4B6BFB] px-2 capitalize text-white rounded-md hover:opacity-50' onClick={() => setModalState({ ...modalState, open: false })}>cancel</button>
-                </div>
-            </div></Modal>}
             <Link to={`/blog/${_id}`} className='md:w-[32.5%]  w-full  p-4 border rounded-md mb-4 relative z-0'>
                 {
                     icons && <div className='absolute top-4 right-4 flex gap-x-1 text-xl text-[#4b6bfb] z-30 '>
@@ -33,7 +21,20 @@ const SingleBlog = ({ _id, title, authorImage, authorName, authorRef, image, cat
                         <FaTrash className='hover:text-red-700' onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
-                            handleModal()
+                            // handleModal()
+                            toast((t) => (
+                                <article className='py-8 text-center'>
+                                    <h1 className='text-3xl font-medium'>Are you sure to delete this blog?</h1>
+                                    <div className='flex justify-center gap-x-1 mt-4'>
+                                        <button className='bg-[#4B6BFB] px-1  text-white rounded-md hover:opacity-50' onClick={() => toast.dismiss(t.id)}>
+                                            Delete
+                                        </button>
+                                        <button className='bg-[#c0392b]  px-1 p-2 text-white rounded-md hover:opacity-50' onClick={() => toast.dismiss(t.id)}>
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </article>
+                            ), { duration: 7000, position: "top-center" });
                         }} />
                     </div>
                 }
