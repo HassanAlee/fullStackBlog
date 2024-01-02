@@ -67,7 +67,7 @@ export const updateABlog = createAsyncThunk(
     if (!res.ok) {
       res = await res.json();
       toast.error(res.message, {
-        duration: 6000,
+        duration: 5000,
       });
       return thunkAPI.rejectWithValue(res.message);
     }
@@ -76,6 +76,30 @@ export const updateABlog = createAsyncThunk(
       duration: 2000,
     });
     return res;
+  }
+);
+export const deleteBlog = createAsyncThunk(
+  "deleteBlog/blogsSlice",
+  async (id, thunkAPI) => {
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    let requestOptions = {
+      method: "DELETE",
+      headers,
+    };
+    let res = await fetch(`/api/v1/blog/delete-blog/${id}`, requestOptions);
+    if (!res.ok) {
+      toast.error(res.message, {
+        duration: 5000,
+      });
+      thunkAPI.rejectWithValue(res.message);
+    }
+    res = await res.json();
+    toast.success("Blog deleted successfully", {
+      duration: 2000,
+      position: "top-right",
+    });
+    return res._id;
   }
 );
 // filter blogs of deleted user
@@ -123,6 +147,16 @@ const blogsSlice = createSlice({
     [updateABlog.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    [deleteBlog.pending]: (state, action) => {
+      state.loading = false;
+    },
+    [deleteBlog.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.blogs = state.blogs.filter((blog) => blog._id != action.payload);
+    },
+    [deleteBlog.rejected]: (state) => {
+      state.loading = false;
     },
   },
 });

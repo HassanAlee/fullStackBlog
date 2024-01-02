@@ -3,11 +3,17 @@ import { getDateFormat } from '../utils/getDateFormat'
 import { Link, useNavigate } from 'react-router-dom'
 import { FiEdit, } from "react-icons/fi"
 import { FaTrash } from "react-icons/fa";
-import Modal from './Modal'
+import { deleteBlog } from '../redux-toolkit/features/blogsSlice';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux'
 const SingleBlog = ({ _id, title, authorImage, authorName, authorRef, image, category, createdAt, icons }) => {
     const formattedDate = getDateFormat(createdAt)
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    // delete handler
+    const handleDelete = (id) => {
+        dispatch(deleteBlog(id))
+    }
     return (
         <>
             <Link to={`/blog/${_id}`} className='md:w-[32.5%]  w-full  p-4 border rounded-md mb-4 relative z-0'>
@@ -26,7 +32,10 @@ const SingleBlog = ({ _id, title, authorImage, authorName, authorRef, image, cat
                                 <article className='py-8 text-center'>
                                     <h1 className='text-3xl font-medium'>Are you sure to delete this blog?</h1>
                                     <div className='flex justify-center gap-x-1 mt-4'>
-                                        <button className='bg-[#4B6BFB] px-1  text-white rounded-md hover:opacity-50' onClick={() => toast.dismiss(t.id)}>
+                                        <button className='bg-[#4B6BFB] px-1  text-white rounded-md hover:opacity-50' onClick={() => {
+                                            handleDelete(_id)
+                                            toast.dismiss()
+                                        }}>
                                             Delete
                                         </button>
                                         <button className='bg-[#c0392b]  px-1 p-2 text-white rounded-md hover:opacity-50' onClick={() => toast.dismiss(t.id)}>
