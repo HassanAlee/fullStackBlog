@@ -121,7 +121,7 @@ const UpdateBlog = () => {
                 </select>
                 {!loading && <div className='flex gap-x-4 justify-center'>
                     <Button text={"update"} click={handleSubmit} />
-                    <Button text={"cancel"} />
+                    <Button text={"cancel"} click={() => navigate('/profile')} />
                 </div>}
             </article>
         </section>

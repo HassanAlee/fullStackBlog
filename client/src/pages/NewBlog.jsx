@@ -25,8 +25,8 @@ const NewBlog = () => {
         return {
             title: "",
             authorRef: "",
-            image: "https://firebasestorage.googleapis.com/v0/b/fullstackblog-f877f.appspot.com/o/1701648042919motivation.jpg?alt=media&token=aad42cd7-0328-4493-8efc-98c05bf5def0",
-            category: ""
+            image: "",
+            category: "Technology"
         }
     })
     // firebase related
@@ -113,7 +113,7 @@ const NewBlog = () => {
                 {
                     !loading && <div className='flex gap-x-4 justify-center'>
                         <Button text={"publish"} click={handleSubmit} />
-                        <Button text={"cancel"} />
+                        <Button text={"cancel"} click={() => navigate('/profile')} />
                     </div>
                 }
             </article>

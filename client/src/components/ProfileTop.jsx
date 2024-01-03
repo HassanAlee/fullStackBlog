@@ -34,10 +34,6 @@ export const ProfileTop = ({ currentUser }) => {
         }
     ]
     const navigate = useNavigate();
-    // load blogs
-    const loadBlogs = () => {
-        console.log("this will load the blogs");
-    }
     const path = window.location.pathname;
     // delete user account handler
     const deleteAccount = (id) => {
@@ -92,7 +88,7 @@ export const ProfileTop = ({ currentUser }) => {
                 window.location.pathname == "/profile" && <>
                     <div className='flex flex-row mt-10 justify-center gap-4 flex-wrap'>
                         <Button text={"update profile"} click={() => navigate('/update-profile')} />
-                        <Button text={"view blogs"} click={loadBlogs} />
+                        {/* <Button text={"view blogs"} click={loadBlogs} /> */}
                         <Button text={"write blog"} click={() => navigate('/write-blog')} />
                     </div>
                 </>
